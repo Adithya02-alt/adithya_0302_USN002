@@ -9,7 +9,7 @@ pipeline {
         stages {
                 stage('checkout') {
                         steps {
-                                git url:'<github_repo_ssh_url>', branch:'main'
+                                git url:'https://github.com/Adithya02-alt/adithya_0302_USN002.git', branch:'main'
                         }
                 }
 
