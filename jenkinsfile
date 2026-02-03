@@ -1,0 +1,52 @@
+pipeline {
+        agent any
+
+        environment {
+                DOCKERHUB_CRED=credentials('dockerhub')
+                IMAGE_NAME="adisree/mca_0203_usn002"
+        }
+
+        stages {
+                stage('checkout') {
+                        steps {
+                                git url:'<github_repo_ssh_url>', branch:'main'
+                        }
+                }
+
+        stage('Build Maven Project') {
+                        steps {
+                                sh "mvn clean package -DskipTests"
+                        }
+                }
+        stage('Build Docker Image') {
+                        steps {
+                                script {
+                                        dockerImage = docker.build("${IMAGE_NAM>
+                                }
+                        }
+                }
+
+        stage('Push Docker Image'){
+                        steps {
+                                script {
+                                        docker.withRegistry('https://index.dock>
+                                                dockerImage.push()
+                                        }
+                                }
+                        }
+                }       
+        }
+        post {
+                success {
+                        echo "Pipeline Successful"
+                }
+                failure {
+                        echo "Pipeline Failure"
+                }
+                always {
+                        echo "Cleaning workspace"
+                        deleteDir()
+                }
+        }
+
+}
